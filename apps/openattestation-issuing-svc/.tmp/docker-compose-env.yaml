@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  oa-issuer:
+    container_name: oa-issuer-svc
+    build:
+      context: ./oa-svc
+      dockerfile: Dockerfile
+    restart: "always"
+    environment:
+      - PORT="3000"
+      - NODE_TYPE=MASTER
+      - ISSUE_DELAY="3"
+      - BATCH_DELAY="3"
+      - RETRY_DELAY="60"
+      - RPC_POOLING_INTERVAL="300"
+      - SIZE_LIMIT=50mb
+      - DOCUMENT_STORE='0xcdf4822C3028EcDF82277F617cbb4f7f7d5932B0'
+      - IDENTITY_LOCATION=ekycis-demo.svathana.com
+      - IDENTITY_TYPE=DNS-TXT
+      - ISSUER_NAME=EKYC Interoperability Standard - Demo
+      - ISSUER_URL=https://ekycis-demo.svathana.com
+      - WALLET_FILE=
+      - WALLET_PWD=
+      - NETWORK=camdl-staging
+      - ADMIN_SECRET=
+      - DATABASE_HOST=mongo-release-mongodb-headless.mongo-ns.svc.cluster.local
+      - DATABASE_PORT="27017"
+      - DATABASE_NAME=ekycis-demo-db
+      - DATABASE_USER=ekycis-demo
+      - DATABASE_PASSWORD=bc7ee812064f09e1
+    volumes:
+      - ./wallet.json:/usr/src/app/wallet.json
+    ports:
+      - "3000:3000"
+volumes:
+  mongodb_data1:
+    external: true

@@ -1,0 +1,20 @@
+version: "3"
+services:
+  mongodb:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=oaDb
+    restart: "always"
+    command: "mongod --bind_ip_all --keyFile /etc/keyfile/keyfile"
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./rs-initiate.js:/docker-entrypoint-initdb.d/rs-initiate.js
+volumes:
+  mongo_data:
+    external: true

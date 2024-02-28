@@ -1,0 +1,37 @@
+{
+  "expo": {
+    "scheme": "requester.ekycis",
+    "name": "ekycis-expo-requester",
+    "slug": "ekycis-expo-requester",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.svathana.expo_requester_ekycis"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "758d7ae4-3389-404b-af5a-f5d1e6a4eaf0"
+      }
+    }
+  }
+}

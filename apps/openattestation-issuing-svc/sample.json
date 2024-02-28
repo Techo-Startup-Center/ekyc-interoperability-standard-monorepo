@@ -1,0 +1,148 @@
+{
+    "invoice_id": "972447F21F",
+    "currency": "KHR",
+    "invoice_number": "24020002580",
+    "issue_date": "2024-02-14",
+    "due_date": "2024-12-14",
+    "buyer_reference": "Phaney",
+    "tax_total": {
+        "tax_amount": 10010,
+        "tax_subtotals": [
+            {
+                "taxable_amount": 100100,
+                "tax_amount": 10010,
+                "tax_category": {
+                    "id": "S",
+                    "percent": 10,
+                    "tax_scheme": "VAT"
+                }
+            }
+        ]
+    },
+    "legal_monetary_total": {
+        "line_extension_amount": 300000,
+        "tax_exclusive_amount": 300000,
+        "tax_inclusive_amount": 310010,
+        "total_vat_exclusive_amount": 300000,
+        "charge_total_amount": 10000,
+        "allowance_total_amount": 10000,
+        "payable_amount": 310010
+    },
+    "allowance_charges": [
+        {
+            "charge_indicator": true,
+            "reason": "Delivery235",
+            "amount": 10000,
+            "tax_categories": [
+                {
+                    "id": "S",
+                    "percent": 10,
+                    "tax_scheme": "VAT",
+                    "tax_amount": 10
+                }
+            ]
+        },
+        {
+            "charge_indicator": false,
+            "reason": "Delivery",
+            "amount": 10000
+        }
+    ],
+    "exchange_rate": 4074,
+    "supplier_id": "ff8f645aab",
+    "customer_id": "ff8f645aab",
+    "supplier": {
+        "merchant_id": "ff8f645aab",
+        "name": "Phaney",
+        "postal_address": {
+            "city_name": "Phnom Penh",
+            "country_code": "KH",
+            "street_name": "PP"
+        },
+        "party_tax_scheme": {
+            "company_id": "23144122",
+            "tax_scheme": "VAT"
+        },
+        "party_legal_entity": {
+            "registration_name": "MINI SHOTA CO., LTD.",
+            "company_id": "1010015622"
+        },
+        "contact": {
+            "name": "Phaney",
+            "phone": "065453322224",
+            "email": "phenpani@gmail.com"
+        },
+        "business_type": "Public Limited Company",
+        "date_of_incorporation": "2024-01-01T17:00:00.000Z",
+        "bank_account_number": "001918447",
+        "currency": "USD",
+        "bank_name": "ABA",
+        "description": "",
+        "national_id_number": "030551786",
+        "webhook_url": "https://42ce-175-100-52-44.ngrok-free.app/webhook/invoice-received",
+        "onboard_by": "merchant_portal",
+        "is_active": true,
+        "status": "APPROVED"
+    },
+    "customer": {
+        "merchant_id": "ff8f645aab",
+        "name": "Phaney",
+        "postal_address": {
+            "city_name": "Phnom Penh",
+            "country_code": "KH",
+            "street_name": "PP"
+        },
+        "party_tax_scheme": {
+            "company_id": "23144122",
+            "tax_scheme": "VAT"
+        },
+        "party_legal_entity": {
+            "registration_name": "MINI SHOTA CO., LTD.",
+            "company_id": "1010015622"
+        },
+        "contact": {
+            "name": "Phaney",
+            "phone": "065453322224",
+            "email": "phenpani@gmail.com"
+        },
+        "business_type": "Public Limited Company",
+        "date_of_incorporation": "2024-01-01T17:00:00.000Z",
+        "bank_account_number": "001918447",
+        "currency": "USD",
+        "bank_name": "ABA",
+        "description": "",
+        "national_id_number": "030551786",
+        "webhook_url": "https://42ce-175-100-52-44.ngrok-free.app/webhook/invoice-received",
+        "onboard_by": "merchant_portal",
+        "is_active": true,
+        "status": "APPROVED"
+    },
+    "invoice_lines": [
+        {
+            "id": 1,
+            "quantity_unit_code": "XBG",
+            "quantity": 3,
+            "line_extension_amount": 300000,
+            "price": 100000,
+            "item": {
+                "description": "Coffee bean224",
+                "name": "Coffee bean ",
+                "tax_categories": [
+                    {
+                        "id": "S",
+                        "percent": 10,
+                        "tax_scheme": "VAT",
+                        "tax_amount": 10000
+                    }
+                ]
+            },
+            "vat_exclusive_amount": 300000,
+            "tax_inclusive_amount": 310000
+        }
+    ],
+    "$template": {
+        "name": "CAM_INVOICE_ATTESTATION",
+        "type": "EMBEDDED_RENDERER",
+        "url": "https://renderer.poc-caminvoice.camdx.gov.kh"
+    }
+}

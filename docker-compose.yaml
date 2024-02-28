@@ -1,0 +1,143 @@
+version: "3"
+
+services:
+  requester-ekycis-integration-svc:
+    container_name: requester-ekycis-integration-svc
+    build:
+      context: ./apps/integration-express
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3000
+      - REQUEST_TIER=T3_KYC
+      - EXCHANGE_MODE=DIRECT_API_POST
+      - API_PREFIX=/api/v1
+      - REQUESTER_CALLBACK_URL=http://requester-ekycis-integration-svc:3000/api/v1/request/callback 
+      - PROVIDER_CALLBACK_URL=http://requester-ekycis-integration-svc:3000/api/v1/provide/callback
+      - ISS=idp-requester-demo.svathana.com # <JWT_ISSUER_URL>
+      - EXP_MINUTE=60
+      - PROVIDER_ALLOWLIST=idp-provider-demo.svathana.com,idp-requester-demo.svathana.com # <EKYCIS_ALLOW_LIST>
+      - EKYC_HELPER_URL=http://requester-ekycis-helper-svc:3000
+      - OA_HELPER_URL=http://oa-issuer-svc:3001 # <OA_SERVICE_URL>
+      - OA_AUTH_KEY= # <OA_SERVICE_AUTH_KEY>
+      - OA_VERIFY_RETRIES=5
+      - OA_VERIFY_INTERVAL_MS=1500
+      - DATABASE_HOST=host.docker.internal # <DB_HOST>
+      - DATABASE_PORT=27017 # <DB_PORT>
+      - DATABASE_NAME=request_ekyc_demo # <DB_NAME>
+      - DATABASE_USER=oaAdmin # <DB_USER>
+      - DATABASE_PASSWORD=root # <DB_PASSWORD>
+    ports:
+      - "3010:3000"
+    networks:
+      - ekycis-network
+
+  requester-ekycis-helper-svc:
+    container_name: requester-ekycis-helper-svc
+    build:
+      context: ./apps/ekycis-svc
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3000
+      - PRIVATE_KEY_PATH=/app/static/key.pem
+      - OA_SERVICE_URL=http://oa-issuer-svc:3001 # <OA_SERVICE_URL>
+      - OA_SERVICE_TOKEN= # <OA_SERVICE_AUTH_KEY>
+      - SIZE_LIMIT=20mb
+    volumes:
+      - "./secret-keys/requester:/app/static"
+    ports:
+      - "3011:3000"
+    networks:
+      - ekycis-network
+  provider-ekycis-integration-svc:
+    container_name: provider-ekycis-integration-svc
+    build:
+      context: ./app/integration-express
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3000
+      - REQUEST_TIER=T3_KYC
+      - EXCHANGE_MODE=DIRECT_API_POST
+      - SIZE_LIMIT=20mb
+      - API_PREFIX=/api/v1
+      - REQUESTER_CALLBACK_URL=http://provider-ekycis-integration-svc:3000/api/v1/request/callback
+      - PROVIDER_CALLBACK_URL=http://provider-ekycis-integration-svc:3000/api/v1/provide/callback
+      - ISS=idp-provider-demo.svathana.com # <JWT_ISSUER_URL>
+      - EXP_MINUTE=60
+      - PROVIDER_ALLOWLIST=idp-provider-demo.svathana.com,idp-requester-demo.svathana.com # <EKYCIS_ALLOW_LIST>
+      - EKYC_HELPER_URL=http://provider-ekycis-helper-svc:3000
+      - OA_HELPER_URL=http://oa-issuer-svc:3001 # <OA_SERVICE_URL>
+      - OA_AUTH_KEY= # <OA_SERVICE_AUTH_KEY>
+      - OA_VERIFY_RETRIES=5
+      - OA_VERIFY_INTERVAL_MS=1500
+      - DATABASE_HOST=host.docker.internal # <DB_HOST>
+      - DATABASE_PORT=27017 # <DB_PORT> 
+      - DATABASE_NAME=provide_ekyc_demo # <DB_NAME>
+      - DATABASE_USER=oaAdmin # <DB_USER>
+      - DATABASE_PASSWORD=root # <DB_PASSWORD>
+    ports:
+      - "3020:3000"
+    networks:
+      - ekycis-network
+  oa-issuer-svc:
+    container_name: oa-issuer-svc
+    build:
+      context: ./apps/integration-express
+      dockerfile: Dockerfile
+    restart: 'always'
+    environment:
+      - SIZE_LIMIT=50mb
+      - IDENTITY_TYPE=DNS-TXT
+      - WALLET_FILE=/usr/src/app/wallet.json #Wallet file
+      - WALLET_PWD= #Wallet Password
+      - ADMIN_SECRET= # <OA_SERVICE_AUTH_KEY>
+      - PORT=3000
+      - DOCUMENT_STORE=0xcdf4822C3028EcDF82277F617cbb4f7f7d5932B0 # <DOCUMENT_STORE>
+      - IDENTITY_LOCATION=ekycis-demo.svathana.com # <DOCUMENT_IDENTITY>
+      - ISSUER_NAME='EKYC Interoperability Standard - Demo'
+      - ISSUER_URL=http://oa-issuer-svc:3001
+      - NETWORK=camdl-staging
+      - DATABASE_HOST=localhost
+      - DATABASE_PORT=27017
+      - DATABASE_USER=ekycis-demo
+      - DATABASE_PASSWORD=bc7ee812064f09e1
+      - DATABASE_NAME=ekycis-demo-db
+      - BATCH_DELAY=3
+      - ISSUE_DELAY=3
+      - RETRY_CALLBACK_DELAY=60
+      - NODE_TYPE=MASTER
+    volumes:
+      - ./wallet.json:/usr/src/app/wallet.json
+    ports:
+      - '3001:3000'
+  provider-ekycis-helper-svc:
+    container_name: provider-ekycis-helper-svc
+    build:
+      context: ./apps/ekycis-helper-svc
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3000
+      - PRIVATE_KEY_PATH=/app/static/key.pem
+      - OA_SERVICE_URL=http://oa-issuer-svc:3001 # <OA_SERVICE_URL>
+      - OA_SERVICE_TOKEN= # <OA_SERVICE_AUTH_KEY>
+      - SIZE_LIMIT=20mb
+    volumes:
+      - "./secret-keys/provider:/app/static"
+    ports:
+      - "3021:3000"
+    networks:
+      - ekycis-network
+
+  insurance-demo-portal:
+    container_name: insurance-demo-portal
+    build:
+      context: ./apps/eykc-web-portal
+      dockerfile: Dockerfile
+    environment:
+      - SERVER_URL=http://requester-ekycis-integration-svc:3000
+    ports:
+      - 3012:3000
+    networks:
+      - ekycis-network
+networks:
+  ekycis-network:
+    external: true

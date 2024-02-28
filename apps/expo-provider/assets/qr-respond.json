@@ -1,0 +1,13 @@
+{
+    "payload": {
+        "callback": "https://idp-requester-demo.svathana.com/api/v1/request/callback",
+        "exchange_mode": "DIRECT_API_POST",
+        "exp": 1707811376,
+        "iat": 1707807776,
+        "iss": "idp-requester-demo.svathana.com",
+        "jti": "1707807776-8595e9ac-6a96-4afa-9467-2aaaea92d7f2",
+        "qr_type": "ekyc_interop",
+        "template": "T3_KYC"
+    },
+    "qr": "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJxcl90eXBlIjoiZWt5Y19pbnRlcm9wIiwidGVtcGxhdGUiOiJUM19LWUMiLCJqdGkiOiIxNzA3ODA3Nzc2LTg1OTVlOWFjLTZhOTYtNGFmYS05NDY3LTJhYWFlYTkyZDdmMiIsImV4Y2hhbmdlX21vZGUiOiJESVJFQ1RfQVBJX1BPU1QiLCJjYWxsYmFjayI6Imh0dHBzOi8vaWRwLXJlcXVlc3Rlci1kZW1vLnN2YXRoYW5hLmNvbS9hcGkvdjEvcmVxdWVzdC9jYWxsYmFjayIsImlzcyI6ImlkcC1yZXF1ZXN0ZXItZGVtby5zdmF0aGFuYS5jb20iLCJpYXQiOjE3MDc4MDc3NzYsImV4cCI6MTcwNzgxMTM3Nn0.3z7vY1D4QAx7tPMuDXyuUYdfLPfx2IiyqBGkYqmNN4XBh_gK7zXu8cSy0iSY8g_TwG2rHWAZm8RM9_EzfbBXqQ"
+}

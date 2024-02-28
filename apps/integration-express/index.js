@@ -1,0 +1,20 @@
+const crypto = require('crypto');
+const { Buffer } = require('buffer');
+
+const pubKey = "LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUE3RTJDNG9rQTdZL2xoN2lKTU9nMwpVVS9vU1NVZEpHNk4zSlZLb09oelJoRFp6K01QNjJxRk4rSmpFT0t5L3VrMkIzUTZFV3FNZUxYUi81TG9FYlNYCmlRTkhqV2ZtRExYa1lUT0ZrV3ZraVAxRGxFTjlzMndtUm10aGJBWllBRCtIRG1jWllpYktXUzNmNURDTkRFL1UKV2RBZm91aEU4aUhoWVBjc0lxWXRtNEQ4UU1LajBoQ3ViZHF4VWVWeW02UUl6c0tCWEJPZzkyeXcweEQwSVhEYgptY1dmbHVOOE03RnZVTHhvSHlEcUtCK3g3b2xoM05rcG12dHR2T0IxNU5yL0wyWFJPOE0yZ2tBZ2w5RWU2QXlyCmJ5bHlBUS9MMlgyelg0aGJlSTEwd0JNSkhpY2lOUEo4dkRDRWl6dFhUaytGVnhLUDd0SzRLUnV2RVR3ckNnenMKeXdJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg=="
+const sig = "t4LJEnOElyBBsfDdhZEzYTY0y6mGhEB8jTtzl80hRYHqJjS87QeleifNLcErHo5eZcV0VMZjSu4C9DanBjwpck7V1zaqga3AoKB9UVcIX1W/+ph47Oh/z/kiReTMglfAhf+2FuqiiUpyH9F7bVgpWQt0Y7Ou1ivpKZ8YreMLAGo+bKDvfCKIByMj7+9EZorWzOXrXspJ02LPuCwVPSxeXlomCDtSqaBrBRbcRuospzq1DqdLxTtPPyk65hczgb9j/6tpg6KQe31b6ayrZNJ7aMhGo0GXuysT0I2f2oJgzgY+R6u7brJPdaTZlHcdG4Ru0vt93I2hNjmaR10TngQwvA=="
+const qr = "eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJxcl90eXBlIjoiZWt5Y19pbnRlcm9wIiwidGVtcGxhdGUiOiJUM19LWUMiLCJqdGkiOiIxNzA3ODA3Nzc2LTg1OTVlOWFjLTZhOTYtNGFmYS05NDY3LTJhYWFlYTkyZDdmMiIsImV4Y2hhbmdlX21vZGUiOiJESVJFQ1RfQVBJX1BPU1QiLCJjYWxsYmFjayI6Imh0dHBzOi8vaWRwLXJlcXVlc3Rlci1kZW1vLnN2YXRoYW5hLmNvbS9hcGkvdjEvcmVxdWVzdC9jYWxsYmFjayIsImlzcyI6ImlkcC1yZXF1ZXN0ZXItZGVtby5zdmF0aGFuYS5jb20iLCJpYXQiOjE3MDc4MDc3NzYsImV4cCI6MTcwNzgxMTM3Nn0.3z7vY1D4QAx7tPMuDXyuUYdfLPfx2IiyqBGkYqmNN4XBh_gK7zXu8cSy0iSY8g_TwG2rHWAZm8RM9_EzfbBXqQ"
+
+// verify signature
+const verify = crypto.createVerify('SHA256');
+verify.update(qr);
+const publicKey = crypto.createPublicKey({
+    key: Buffer.from(pubKey, 'base64').toString('utf-8'),
+    format: 'pem',
+});
+const isVerified = verify.verify(publicKey, sig, 'base64');
+if (!isVerified) {
+    console.log(`Invalid signature: ${sig}`);
+} else {
+    console.log(`Signature is valid`);
+}

@@ -1,0 +1,12 @@
+version: "3"
+services:
+  myapp:
+    container_name: ekycis-web-portal
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SERVER_URL=https://idp-requester-demo.svathana.com
+    ports:
+      - 8080:3000
+# edit .env file to change endpoint
