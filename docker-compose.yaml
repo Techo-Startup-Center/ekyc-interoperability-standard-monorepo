@@ -81,7 +81,7 @@ services:
   oa-issuer-svc:
     container_name: oa-issuer-svc
     build:
-      context: ./apps/integration-express
+      context: ./apps/openattestation-issuing-svc
       dockerfile: Dockerfile
     restart: "always"
     environment:
