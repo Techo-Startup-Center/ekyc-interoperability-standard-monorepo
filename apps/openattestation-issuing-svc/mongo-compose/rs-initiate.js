@@ -1,14 +1,12 @@
-db.createUser(
+db.createUser({
+  user: "<DB_USERNAME>",
+  pwd: "<DB_PASSPORT>",
+  roles: [
     {
-        user: "oaAdmin",
-        pwd: "root",
-        roles: [
-            {
-                role: "readWrite",
-                db: "oaDb"
-            }
-        ]
-    }
-);
+      role: "readWrite",
+      db: "<DB_NAME>",
+    },
+  ],
+});
 
 rs.initiate();

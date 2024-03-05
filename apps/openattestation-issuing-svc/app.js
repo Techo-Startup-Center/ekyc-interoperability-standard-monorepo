@@ -4,10 +4,12 @@ const wrapRoute = require("./routes/wrap");
 const verifyRoute = require("./routes/verify");
 const revokeRoute = require("./routes/revoke");
 const encryptionRoute = require("./routes/encryption");
+const obfuscateRoute = require("./routes/obfuscation");
 const mongoose = require("mongoose");
 const moment = require("moment");
 const mongoConnect = require("./config/mongo");
 const { Worker } = require("node:worker_threads");
+const { obfuscate } = require("@govtechsg/open-attestation");
 
 var app = express();
 const PORT = process.env.PORT;
@@ -15,15 +17,6 @@ const PORT = process.env.PORT;
 // * View engine setup
 app.use(logger("dev"));
 app.use(express.json({ limit: process.env.SIZE_LIMIT }));
-
-app.use((req, res, next) => {
-  try {
-    JSON.parse(JSON.stringify(req.body));
-    next();
-  } catch (error) {
-    res.status(400).send({ code: "BAD_REQUEST", message: "Invalid request body" });
-  }
-});
 
 // * Authorization middleware
 function isAuth(req, res, next) {
@@ -36,11 +29,11 @@ function isAuth(req, res, next) {
   }
 }
 
-
 app.use("/api/v1/document", isAuth, wrapRoute);
 app.use("/api/v1/document", isAuth, revokeRoute);
 app.use("/api/v1/document", isAuth, encryptionRoute);
 app.use("/api/v1/verify", verifyRoute);
+app.use("/api/v1/document", isAuth, obfuscateRoute );
 
 // * Not found handler
 app.use(function (_, res) {
@@ -50,7 +43,8 @@ app.use(function (_, res) {
 // * Global error handler
 app.use((err, _, res, __) => {
   console.log(
-    `ERROR ${moment().toISOString()} - ${err.message || "An unexpected error has occurred"
+    `ERROR ${moment().toISOString()} - ${
+      err.message || "An unexpected error has occurred"
     }`
   );
   res.status(err.status || 500);

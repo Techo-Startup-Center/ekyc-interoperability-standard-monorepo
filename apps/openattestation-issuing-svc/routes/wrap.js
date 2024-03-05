@@ -6,7 +6,6 @@ const router = Router();
 
 router.post("/wrap", async (req, res, next) => {
   try {
-
     const savedDocument = await wrapDocument(req.body);
     const trigger = Document.watch([
       {
